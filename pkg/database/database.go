@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"pos-is-backend/internal/domain/entity"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -26,23 +27,15 @@ func InitMySQL() (*gorm.DB, error) {
 	}
 	db.LogMode(true)
 
-	// //Drop table if exists
-	// if err := db.DropTableIfExists(&entity.User{}, &entity.Role{}, &entity.Post{}).Error; err != nil {
-	// 	return nil, err
-	// }
+	//Drop table if exists
+	if err := db.DropTableIfExists(&entity.Cashier{}).Error; err != nil {
+		return nil, err
+	}
 
-	// //Create table
-	// if err := db.AutoMigrate(&entity.Role{}, &entity.User{}, &entity.Post{}).Error; err != nil {
-	// 	return nil, err
-	// }
-
-	// if err := db.Model(&entity.User{}).AddForeignKey("role_id", "roles(id)", "CASCADE", "CASCADE").Error; err != nil {
-	// 	return nil, err
-	// }
-
-	// if err := db.Model(&entity.Post{}).AddForeignKey("author_id", "users(id)", "CASCADE", "CASCADE").Error; err != nil {
-	// 	return nil, err
-	// }
+	//Create table
+	if err := db.AutoMigrate(&entity.Cashier{}).Error; err != nil {
+		return nil, err
+	}
 
 	return db, nil
 }
