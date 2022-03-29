@@ -1,0 +1,7 @@
+/static/*
+!/static/index.html
+
+!*.html
+*.log
+.env
+App.yaml
