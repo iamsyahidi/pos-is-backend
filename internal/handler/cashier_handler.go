@@ -54,17 +54,8 @@ func (ch *CashierHandler) CreateCashier(c *gin.Context) {
 
 func (ch *CashierHandler) GetAllCashier(c *gin.Context) {
 	urlValues := c.Request.URL.Query()
-	limit, err := strconv.Atoi(urlValues.Get("limit"))
-	if err != nil {
-		response.ResponseErrorCustom(c, err, err.Error(), http.StatusBadGateway)
-		return
-	}
-
-	skip, err := strconv.Atoi(urlValues.Get("skip"))
-	if err != nil {
-		response.ResponseErrorCustom(c, err, err.Error(), http.StatusBadGateway)
-		return
-	}
+	limit, _ := strconv.Atoi(urlValues.Get("limit"))
+	skip, _ := strconv.Atoi(urlValues.Get("skip"))
 
 	res, err := ch.cashierService.GetAllCashier(limit, skip)
 	if err != nil {
