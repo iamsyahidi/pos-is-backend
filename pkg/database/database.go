@@ -37,5 +37,22 @@ func InitMySQL() (*gorm.DB, error) {
 		return nil, err
 	}
 
+	cashier1 := entity.Cashier{
+		Name:     "Kasir 10",
+		Passcode: "123456",
+	}
+	cashier2 := entity.Cashier{
+		Name:     "Kasir 12",
+		Passcode: "123456",
+	}
+	cashier3 := entity.Cashier{
+		Name:     "Kasir 14",
+		Passcode: "123456",
+	}
+
+	db.Create(&cashier1)
+	db.Create(&cashier2)
+	db.Create(&cashier3)
+
 	return db, nil
 }
