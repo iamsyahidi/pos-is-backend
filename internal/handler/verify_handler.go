@@ -28,7 +28,7 @@ func (vh *VerifyHandler) LoginPasscode(c *gin.Context) {
 		err     error
 	)
 
-	err = c.ShouldBindJSON(&request)
+	err = c.ShouldBind(&request)
 	if err != nil {
 		response.ResponseErrorCustom(c, err, "Bad Request", http.StatusBadRequest)
 		return
@@ -43,7 +43,7 @@ func (vh *VerifyHandler) LoginPasscode(c *gin.Context) {
 	res, err := vh.verifyService.LoginPasscode(cashierId, request.Passcode)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			response.ResponseErrorCustom(c, err, "Passcode Not Match", http.StatusNotFound)
+			response.ResponseErrorCustom(c, err, "Passcode Not Match", http.StatusUnauthorized)
 			return
 		}
 		response.ResponseErrorCustom(c, err, "Internal Server Error", http.StatusInternalServerError)
@@ -87,7 +87,7 @@ func (vh *VerifyHandler) LogoutPasscode(c *gin.Context) {
 		err     error
 	)
 
-	err = c.ShouldBindJSON(&request)
+	err = c.ShouldBind(&request)
 	if err != nil {
 		response.ResponseErrorCustom(c, err, "Bad Request", http.StatusBadRequest)
 		return
@@ -102,7 +102,7 @@ func (vh *VerifyHandler) LogoutPasscode(c *gin.Context) {
 	err = vh.verifyService.LogoutPasscode(cashierId, request.Passcode)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			response.ResponseErrorCustom(c, err, "Passcode Not Match", http.StatusNotFound)
+			response.ResponseErrorCustom(c, err, "Passcode Not Match", http.StatusUnauthorized)
 			return
 		}
 		response.ResponseErrorCustom(c, err, "Internal Server Error", http.StatusInternalServerError)

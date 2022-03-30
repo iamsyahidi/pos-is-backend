@@ -27,7 +27,7 @@ func (ch *CashierHandler) CreateCashier(c *gin.Context) {
 		err     error
 	)
 
-	err = c.ShouldBindJSON(&request)
+	err = c.ShouldBind(&request)
 	if err != nil {
 		response.ResponseErrorCustom(c, err, "Bad Request", http.StatusBadRequest)
 		return
@@ -115,7 +115,7 @@ func (ch *CashierHandler) UpdateCashier(c *gin.Context) {
 		return
 	}
 
-	err = c.ShouldBindJSON(&request)
+	err = c.ShouldBind(&request)
 	if err != nil {
 		response.ResponseErrorCustom(c, err, "Bad Request", http.StatusBadRequest)
 		return
@@ -146,7 +146,7 @@ func (ch *CashierHandler) DeleteCashier(c *gin.Context) {
 		return
 	}
 
-	err = c.ShouldBindJSON(&request)
+	err = c.ShouldBind(&request)
 	if err != nil {
 		response.ResponseErrorCustom(c, err, "Bad Request", http.StatusBadRequest)
 		return
