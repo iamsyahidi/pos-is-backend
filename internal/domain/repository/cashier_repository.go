@@ -51,11 +51,19 @@ func (cr *CashierRepository) CreateCashier(request *entity.Cashier) (*entity.Cas
 
 // GetAllCashier(limit, skip int) (*[]entity.Cashier, error) ...
 func (cr *CashierRepository) GetAllCashier(limit, skip int) (*[]entity.Cashier, error) {
+	var err error
 	cashiers := []entity.Cashier{}
 
-	err := cr.db.Debug().Model(&entity.Cashier{}).Offset(skip).Limit(limit).Find(&cashiers).Error
-	if err != nil {
-		return nil, err
+	if limit > 0 {
+		err = cr.db.Debug().Model(&entity.Cashier{}).Offset(skip).Limit(limit).Find(&cashiers).Error
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err = cr.db.Debug().Model(&entity.Cashier{}).Find(&cashiers).Error
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return &cashiers, err
