@@ -72,8 +72,8 @@ func (ch *CashierHandler) GetAllCashier(c *gin.Context) {
 		return
 	}
 
-	if res == nil {
-		res = &entity.ListCashierResponse{}
+	if res.Cashiers == nil {
+		res.Cashiers = make([]entity.CashierView, 0)
 	}
 
 	response.ResponseSuccessWithData(c, res)
