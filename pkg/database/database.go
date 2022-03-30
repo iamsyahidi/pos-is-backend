@@ -28,12 +28,12 @@ func InitMySQL() (*gorm.DB, error) {
 	db.LogMode(true)
 
 	//Drop table if exists
-	if err := db.DropTableIfExists(&entity.Cashier{}).Error; err != nil {
+	if err := db.DropTableIfExists(&entity.Cashier{}, &entity.Category{}).Error; err != nil {
 		return nil, err
 	}
 
 	//Create table
-	if err := db.AutoMigrate(&entity.Cashier{}).Error; err != nil {
+	if err := db.AutoMigrate(&entity.Cashier{}, &entity.Category{}).Error; err != nil {
 		return nil, err
 	}
 
@@ -50,9 +50,22 @@ func InitMySQL() (*gorm.DB, error) {
 		Passcode: "123456",
 	}
 
+	category1 := entity.Category{
+		Name: "Kategori 1",
+	}
+	category2 := entity.Category{
+		Name: "Kategori 2",
+	}
+	category3 := entity.Category{
+		Name: "Kategori 3",
+	}
+
 	db.Create(&cashier1)
 	db.Create(&cashier2)
 	db.Create(&cashier3)
+	db.Create(&category1)
+	db.Create(&category2)
+	db.Create(&category3)
 
 	return db, nil
 }

@@ -22,6 +22,11 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	verifyService := service.NewVerifyService(verifyRepo, cashierRepo)
 	verifyHandler := handler.NewVerifyHandler(verifyService)
 
+	// Category
+	categoryRepo := repository.NewCategoryRepository(db)
+	categoryService := service.NewCategoryService(categoryRepo)
+	categoryHandler := handler.NewCategoryHandler(categoryService)
+
 	cashier := router.Group("cashiers")
 	{
 		cashier.POST("", cashierHandler.CreateCashier)
@@ -32,6 +37,15 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		cashier.GET("/:cashierId/passcode", verifyHandler.GetPasscode)
 		cashier.POST("/:cashierId/login", verifyHandler.LoginPasscode)
 		cashier.POST("/:cashierId/logout", verifyHandler.LogoutPasscode)
+	}
+
+	category := router.Group("categories")
+	{
+		category.POST("", categoryHandler.CreateCategory)
+		category.GET("", categoryHandler.GetAllCategory)
+		category.GET("/:categoryId", categoryHandler.GetDetailCategory)
+		category.PUT("/:categoryId", categoryHandler.UpdateCategory)
+		category.DELETE("/:categoryId", categoryHandler.DeleteCategory)
 	}
 
 	router.StaticFile("/", "static/index.html")
