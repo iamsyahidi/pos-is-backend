@@ -17,6 +17,7 @@ type ICashierRepository interface {
 	UpdateCashier(request *entity.Cashier) error
 	DeleteCashier(cashierId int, name string) error
 	TotalCashier() (int, error)
+	GetCashierByIdAndPasscode(cashierId int, passcode string) (*entity.Cashier, error)
 }
 
 // NewCashierRepository(db *gorm.DB) *CashierRepository ...
@@ -123,4 +124,19 @@ func (cr *CashierRepository) TotalCashier() (int, error) {
 	}
 
 	return total, nil
+}
+
+// GetCashierByIdAndPasscode(cashierId int, passcode string) (*entity.Cashier, error) ...
+func (cr *CashierRepository) GetCashierByIdAndPasscode(cashierId int, passcode string) (*entity.Cashier, error) {
+	var (
+		err     error
+		cashier entity.Cashier
+	)
+
+	err = cr.db.Debug().Model(&entity.Cashier{}).Where("id = ? and passcode = ?", cashierId, passcode).Take(&cashier).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &cashier, err
 }
