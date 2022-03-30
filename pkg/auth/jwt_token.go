@@ -11,7 +11,7 @@ import (
 )
 
 type TokenDetails struct {
-	Token string
+	Token string `json:"token"`
 }
 
 func CreateToken(sub string) (*TokenDetails, error) {
