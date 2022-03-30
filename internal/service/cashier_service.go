@@ -96,7 +96,12 @@ func (cs *CashierService) GetDetailCashier(cashierId int) (*entity.CashierView, 
 }
 
 func (cs *CashierService) UpdateCashier(cashierId int, name string) error {
-	err := cs.cashierRepo.UpdateCashier(&entity.Cashier{
+	_, err := cs.cashierRepo.GetDetailCashier(cashierId)
+	if err != nil {
+		return err
+	}
+
+	err = cs.cashierRepo.UpdateCashier(&entity.Cashier{
 		Id:        cashierId,
 		Name:      name,
 		UpdatedAt: time.Now(),
