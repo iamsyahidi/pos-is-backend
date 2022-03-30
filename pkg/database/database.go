@@ -2,21 +2,21 @@ package database
 
 import (
 	"fmt"
+	"os"
 	"pos-is-backend/internal/domain/entity"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/spf13/viper"
 )
 
 func InitMySQL() (*gorm.DB, error) {
-	username := viper.GetString("MYSQL_USER")
-	password := viper.GetString("MYSQL_PASSWORD")
-	host := viper.GetString("MYSQL_HOST")
-	port := viper.GetInt("MYSQL_PORT")
-	dbname := viper.GetString("MYSQL_DBNAME")
+	username := os.Getenv("MYSQL_USER")
+	password := os.Getenv("MYSQL_PASSWORD")
+	host := os.Getenv("MYSQL_HOST")
+	port := os.Getenv("MYSQL_PORT")
+	dbname := os.Getenv("MYSQL_DBNAME")
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, dbname)
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Local", username, password, host, port, dbname)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		return nil, err

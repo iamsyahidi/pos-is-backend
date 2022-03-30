@@ -3,11 +3,11 @@ package auth
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/spf13/viper"
 )
 
 type TokenDetails struct {
@@ -17,7 +17,7 @@ type TokenDetails struct {
 func CreateToken(sub string) (*TokenDetails, error) {
 	var err error
 
-	atSecret := viper.GetString("JWT_SECRET")
+	atSecret := os.Getenv("JWT_SECRET")
 	td := &TokenDetails{}
 
 	atClaims := jwt.MapClaims{}
@@ -47,7 +47,7 @@ func VerifyToken(r *http.Request) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("wrong signature method")
 		}
-		return []byte(viper.GetString("JWT_SECRET")), nil
+		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 
 	if err != nil {

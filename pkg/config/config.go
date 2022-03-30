@@ -3,12 +3,11 @@ package config
 import (
 	"log"
 
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 func GetConfig() {
-	viper.SetConfigFile(".env")
-	err := viper.ReadInConfig()
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("config error : ", err.Error())
 	}
