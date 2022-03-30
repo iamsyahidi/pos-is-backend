@@ -14,7 +14,7 @@ type ICashierRepository interface {
 	CreateCashier(request *entity.Cashier) (*entity.Cashier, error)
 	GetAllCashier(limit, skip int) (*[]entity.Cashier, error)
 	GetDetailCashier(cashierId int) (*entity.Cashier, error)
-	UpdateCashier(cashierId int, name string) error
+	UpdateCashier(request *entity.Cashier) error
 	DeleteCashier(cashierId int, name string) error
 	TotalCashier() (int, error)
 }
@@ -75,8 +75,8 @@ func (cr *CashierRepository) GetDetailCashier(cashierId int) (*entity.Cashier, e
 	return &cashier, err
 }
 
-// UpdateCashier(cashierId int, name string) error ...
-func (cr *CashierRepository) UpdateCashier(cashierId int, name string) error {
+// UpdateCashier(request *entity.Cashier) error ...
+func (cr *CashierRepository) UpdateCashier(request *entity.Cashier) error {
 	var err error
 
 	tx := cr.db.Begin()
@@ -85,9 +85,7 @@ func (cr *CashierRepository) UpdateCashier(cashierId int, name string) error {
 		return err
 	}
 
-	err = tx.Debug().Model(&entity.Cashier{}).Where("id = ?", cashierId).Updates(entity.Cashier{
-		Name: name,
-	}).Error
+	err = tx.Debug().Model(&entity.Cashier{}).Save(&request).Error
 	if err != nil {
 		tx.Rollback()
 		return err

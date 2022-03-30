@@ -3,6 +3,7 @@ package service
 import (
 	"pos-is-backend/internal/domain/entity"
 	"pos-is-backend/internal/domain/repository"
+	"time"
 )
 
 type CashierService struct {
@@ -95,7 +96,11 @@ func (cs *CashierService) GetDetailCashier(cashierId int) (*entity.CashierView, 
 }
 
 func (cs *CashierService) UpdateCashier(cashierId int, name string) error {
-	err := cs.cashierRepo.UpdateCashier(cashierId, name)
+	err := cs.cashierRepo.UpdateCashier(&entity.Cashier{
+		Id:        cashierId,
+		Name:      name,
+		UpdatedAt: time.Now(),
+	})
 	if err != nil {
 		return err
 	}
