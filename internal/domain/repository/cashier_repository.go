@@ -67,7 +67,7 @@ func (cr *CashierRepository) GetDetailCashier(cashierId int) (*entity.Cashier, e
 		cashier entity.Cashier
 	)
 
-	err = cr.db.Debug().Model(&entity.Cashier{}).Where("id = ?", cashierId).Take(cashier).Error
+	err = cr.db.Debug().Model(&entity.Cashier{}).Where("id = ?", cashierId).Take(&cashier).Error
 	if err != nil {
 		return nil, err
 	}
