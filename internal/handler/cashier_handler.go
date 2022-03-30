@@ -121,16 +121,6 @@ func (ch *CashierHandler) UpdateCashier(c *gin.Context) {
 		return
 	}
 
-	_, err = ch.cashierService.GetDetailCashier(cashierId)
-	if err != nil {
-		if gorm.IsRecordNotFoundError(err) {
-			response.ResponseErrorCustom(c, err, "Cashier Not Found", http.StatusNotFound)
-			return
-		}
-		response.ResponseErrorCustom(c, err, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	err = ch.cashierService.UpdateCashier(cashierId, request.Name)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
