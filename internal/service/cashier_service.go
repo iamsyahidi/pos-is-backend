@@ -114,7 +114,12 @@ func (cs *CashierService) UpdateCashier(cashierId int, name string) error {
 }
 
 func (cs *CashierService) DeleteCashier(cashierId int, name string) error {
-	err := cs.cashierRepo.DeleteCashier(cashierId, name)
+	_, err := cs.cashierRepo.GetDetailCashier(cashierId)
+	if err != nil {
+		return err
+	}
+
+	err = cs.cashierRepo.DeleteCashier(cashierId, name)
 	if err != nil {
 		return err
 	}
