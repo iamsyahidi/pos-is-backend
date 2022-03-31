@@ -27,6 +27,12 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	categoryService := service.NewCategoryService(categoryRepo)
 	categoryHandler := handler.NewCategoryHandler(categoryService)
 
+	// Product
+	// Category
+	productRepo := repository.NewProductRepository(db)
+	productService := service.NewProductService(productRepo)
+	productHandler := handler.NewProductHandler(productService)
+
 	cashier := router.Group("cashiers")
 	{
 		cashier.POST("", cashierHandler.CreateCashier)
@@ -46,6 +52,15 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		category.GET("/:categoryId", categoryHandler.GetDetailCategory)
 		category.PUT("/:categoryId", categoryHandler.UpdateCategory)
 		category.DELETE("/:categoryId", categoryHandler.DeleteCategory)
+	}
+
+	product := router.Group("products")
+	{
+		product.POST("", productHandler.CreateProduct)
+		product.GET("", productHandler.GetAllProducts)
+		product.GET("/:productId", productHandler.GetDetailProduct)
+		product.PUT("/:productId", productHandler.UpdateProduct)
+		product.DELETE("/:productId", productHandler.DeleteProduct)
 	}
 
 	router.StaticFile("/", "static/index.html")

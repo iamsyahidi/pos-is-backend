@@ -24,7 +24,7 @@ type CategoryResponses struct {
 }
 
 type CategoryView struct {
-	CategoryId int    `json:"categoryId"`
+	CategoryId int    `gorm:"column: id;" json:"categoryId"`
 	Name       string `json:"name"`
 }
 
